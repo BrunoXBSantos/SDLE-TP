@@ -1,5 +1,5 @@
 [bruno]: https://github.com/BrunoXBSantos
-[bruno-pic]: https://github.com/BrunoXBSantos.png?size=120
+[bruno-pic]: https://github.com/BrunoXBSantos.png?size=70
 [flavio]: https://github.com/FlavioMartins93
 [flavio-pic]: https://github.com/FlavioMartins93.png?size=70
 [francisco]: https://github.com/fmoraispires
