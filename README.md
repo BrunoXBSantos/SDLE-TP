@@ -1,11 +1,11 @@
 [bruno]: https://github.com/BrunoXBSantos
 [bruno-pic]: https://github.com/BrunoXBSantos.png?size=120
 [flavio]: https://github.com/FlavioMartins93
-[flavio-pic]: https://github.com/FlavioMartins93.png?size=120
+[flavio-pic]: https://github.com/FlavioMartins93.png?size=100
 [francisco]: https://github.com/fmoraispires
-[francisco-pic]: https://github.com/fmoraispires.png?size=120
+[francisco-pic]: https://github.com/fmoraispires.png?size=100
 [pedro]: https://github.com/pCosta99
-[pedrp-pic]: https://github.com/pCosta99.png?size=120
+[pedr0-pic]: https://github.com/pCosta99.png?size=100
 
 <div align="center">
 
