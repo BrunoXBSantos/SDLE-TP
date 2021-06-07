@@ -9,7 +9,7 @@
 
 <div align="center">
 
-# Data processing and storage
+# Decentralized Timeline
 
 [Geeting Started](#rocket-getting-started)
 |
