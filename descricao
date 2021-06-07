@@ -1,0 +1,64 @@
+-> INICIAR SESSAO
+    carrega a porta tcp e udp
+
+    inicia no seu nodo uma ligaçao à rede p2p
+    tenta conectar se atraves de udp a um nodo conhecido da rede
+    
+    é pedido o seu nickname, nickname é a chave na DHT
+
+    localmente, carrega a sua timeline, a sua lista de seguidores 
+    e o seu vetor clock, isto se já se ter ligado anteriormente.
+    É usada a funcao local_storage.read_data para isso
+
+    atraves da funçao build_user_info() é feito o pedido do valor
+    à DHT associado à chave do user (nickname). Se não existir chave 
+    na DHT é criado um valor em JSON(ip, portTCP, followers e vetor_clock)
+    e inserido na dht esse valor com a chave o seu nickname
+
+    Utilizador ligado/registado com sucesso e conectado à rede p2p
+
+
+-> SHOW TIMELINE
+    opçao 1 do menu
+
+    vai ao array que guarda as timelines e exibe
+
+
+-> SEGUIR UTILIZADOR
+    opcao 2 do menu
+
+    user1 quer seguir user2
+
+    é pedido o nickname do user2, ou seja, de quem quer seguir
+
+    é feito um pedido à DHT pelo valor associado à chave, cuja 
+    chave é o nickname do user2
+
+    é feito o parse do valor, de JSON para um formato que pode ser 
+    manipulado
+
+    é verificado o campo "followers" do user2, e se esse campo nao conter o Utilizador
+    o nickname do user1, ou seja, user1 nao é seguidor do user2, é inserido nesse campo o nickname e o
+    do user1 e o seu ip e a porta tcp. 
+
+    por fim, a fim de atualizar a dht com a informaçao de um novo seguidor,
+    é feito um set cuja chave é o nickname do user2 e o valor é o seu 
+    JSON atualizado, onde em followers está explicito que o user1 o segue
+
+-> SEND TIMELINE
+    opcao 3 do menu
+
+    é inserida a sms a enviar aos seus seguidores
+
+    é pedido à dht o valor associado ao nickname do user que pretende
+    enviar a sms. O valor, em JSON é recebido e convertido para 
+    um formato tratado
+
+    é adicionada uma unidade ao vetor clock de que vai enviar a sms. Depois
+    é publicado na dht o valor atualizado
+
+    No campo followers desse valor contem o nockname, o ip e a porta
+    tcp dos seus seguidores. Para cada seguidor:
+
+    é estabelecida uma conexao tcp e enviada a sms
+    
