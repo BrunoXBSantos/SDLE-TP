@@ -4,16 +4,16 @@ import builder
 import utils
 from Functionalities import UtilsFuncionalities
 
-# get timeline to the followings TODO
-async def get_timeline(server, username, following, vector_clock, timeline):
+# get timeline to the subscribeds TODO
+async def get_timeline(server, username, subscribed, vector_clock, timeline):
     print("################## get_timeline #################")
-    for user in following:
+    for user in subscribed:
         #estou no c, o 'c' segue o 'a' e o 'b'
-        # following: [{'id': 'a', 'ip': '192.168.1.82', 'port': 5001}, {'id': 'b', 'ip': '192.168.1.82', 'port': 6001}]
+        # subscribed: [{'id': 'a', 'ip': '192.168.1.82', 'port': 5001}, {'id': 'b', 'ip': '192.168.1.82', 'port': 6001}]
         # user: {'id': 'a', 'ip': '192.168.1.82', 'port': 5001}
         result = await server.get(user['id']) # obtenho o json do 'a', para ver o seu vetor clock
         print("result")
-        # {"ip": "192.168.1.82", "port": 5001, "followers": {"c": "192.168.1.82 7001", "b": "192.168.1.82 6001"}, "vector_clock": {"a": 2, "c": 0, "b": 0}}
+        # {"ip": "192.168.1.82", "port": 5001, "subscribers": {"c": "192.168.1.82 7001", "b": "192.168.1.82 6001"}, "vector_clock": {"a": 2, "c": 0, "b": 0}}
         print(result)
         if result is not None:
             userDHT = json.loads(result)
@@ -30,7 +30,7 @@ async def get_timeline(server, username, following, vector_clock, timeline):
 \
 async def check_causality(user, userDHT, vector_clock):
     try:
-        print("user no array following")
+        print("user no array subscribed")
         print(user)
         print(userDHT['vector_clock'])  #do a
         print(vector_clock) # o meu

@@ -11,20 +11,21 @@ import Menu.Menu as menu
 from Storage import storage
 from datetime import datetime
 
-from Functionalities import FollowUser
+from Functionalities import SubscribeUsername
 from Functionalities import GetTimeline
 from Functionalities import SeeTimeline
 from Functionalities import PostMessage
+from Functionalities import GetSubscribers
 
 
 
-# -- Global VARS --
+# -- Global VARIABLES --
 queue = asyncio.Queue()
 p2p_port = ""
 username = ""
 ip_address = ""
 timeline = []
-following = []
+subscribed = []
 vector_clock = {}
 storage_file = 'database_'
 
@@ -89,7 +90,7 @@ if __name__ == "__main__":
         print('Peer is active ...')
         username = utils.get_username()
         
-        (timeline, following, vector_clock) = storage.read_data(storage_file+username)
+        (timeline, subscribed, vector_clock) = storage.read_data(storage_file+username)
 
         loop.run_until_complete(builder.build_user_info(username, server, ip_address, p2p_port, vector_clock))
         
@@ -103,7 +104,7 @@ if __name__ == "__main__":
         # lê do teclado
         loop.add_reader(sys.stdin, handle_stdin)
         
-        loop.run_until_complete(GetTimeline.get_timeline(server, username, following, vector_clock, timeline))
+        loop.run_until_complete(GetTimeline.get_timeline(server, username, subscribed, vector_clock, timeline))
 
         m = Menu("   Welcome  " + datetime.now().strftime('%d/%m/%Y %H:%M'))
         m.draw()
@@ -111,11 +112,11 @@ if __name__ == "__main__":
         while running:
             print("vetor_clock")
             print(vector_clock)
-            print("following")
-            print(following)
+            print("subscribed")
+            print(subscribed)
             msg = loop.run_until_complete(queue.get())
             if msg == "2\n":
-                loop.run_until_complete(FollowUser.subscribe_username(username, following, server, ip_address, p2p_port, vector_clock[username]))
+                loop.run_until_complete(SubscribeUsername.subscribe_username(username, subscribed, server, ip_address, p2p_port, vector_clock[username]))
             else: 
                 if msg == "1\n":
                     loop.run_until_complete(SeeTimeline.see_timeline(menu, timeline))
@@ -125,10 +126,13 @@ if __name__ == "__main__":
                         print("send_msg Correu bem")
                     else:
                         if msg == "4\n":
-                            loop.run_until_complete(ver_tabela(username, server))
-                            print("ver tabela")
+                            loop.run_until_complete(GetSubscribers.getSubscribers(server, username, menu))
                         else:
-                            running = False
+                            if msg == "5\n":
+                                loop.run_until_complete(ver_tabela(username, server))
+                                print("ver tabela")
+                            else:
+                                running = False
             m.draw()
 
         #loop.run_forever()
@@ -138,7 +142,7 @@ if __name__ == "__main__":
         print(ex)
     finally:
         print('Good Bye!')
-        storage.save_data(timeline, following, vector_clock, storage_file+username)        
+        storage.save_data(timeline, subscribed, vector_clock, storage_file+username)        
         connection.stop()                                                                      
         server.stop()                                                                       
         loop.close()                                                                        

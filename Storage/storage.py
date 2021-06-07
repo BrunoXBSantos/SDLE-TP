@@ -2,10 +2,10 @@ import argparse, json
 
 
 # Convert data to JSON
-def __dataToJson(messages, following, vector_clock):
+def __dataToJson(messages, subscribed, vector_clock):
     data = {}
     data['messages'] = messages
-    data['following'] = following
+    data['subscribed'] = subscribed
     data['vector_clock'] = vector_clock
     return json.dumps(data)
 
@@ -13,7 +13,7 @@ def __dataToJson(messages, following, vector_clock):
 # Convert JSON to data
 def __JsonToData(string):
     data = json.loads(string)
-    return (data['messages'], data['following'], data['vector_clock'])
+    return (data['messages'], data['subscribed'], data['vector_clock'])
 
 
 # Import data from file
@@ -44,6 +44,6 @@ def read_data(db_file):
 
 
 # save all data to the file
-def save_data(timeline, following, vector_clock,  db_file):
-    data = __dataToJson(timeline, following, vector_clock)
+def save_data(timeline, subscribed, vector_clock,  db_file):
+    data = __dataToJson(timeline, subscribed, vector_clock)
     __exportData(data, db_file)

@@ -8,6 +8,7 @@ class Menu:
         print('     1 - Timeline')
         print('     2 - Subscribe username')
         print('     3 - Post message')
+        print('     4 - Show Subscribers')
         print("")
         print('     0 - Exit')
         print("")

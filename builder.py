@@ -2,7 +2,7 @@ import json
 
 # value stored in DHT
 def user_info(username, ip_address, p2p_port):
-    info = {'ip': ip_address, 'port': p2p_port, 'followers': {}, 'vector_clock': {username: 0}}
+    info = {'ip': ip_address, 'port': p2p_port, 'subscribers': {}, 'vector_clock': {username: 0}}
     return json.dumps(info)
 
 
