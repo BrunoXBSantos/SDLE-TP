@@ -9,10 +9,11 @@ import builder
 from Menu.Menu import Menu
 import Menu.Menu as menu
 from Storage import storage
+from datetime import datetime
 
 from Funcionalities import FollowUser
 from Funcionalities import GetTimeline
-from Funcionalities import ShowTimeline
+from Funcionalities import SeeTimeline
 from Funcionalities import PostMessage
 
 
@@ -25,28 +26,28 @@ ip_address = ""
 timeline = []
 following = []
 vector_clock = {}
-db_file = 'db'
+storage_file = 'database_'
 
 # exit app
 def exit_loop():
     return True
 
 # check if the number of args is valid
-def check_argv():
+def verify_args():
     if len(sys.argv) < 3:
         print("Usage: python peer.py <-pDHT port_dht> <-pP2P port_p2p> [<-ipB bootstrap_ip> <-pB bootstrap_port>]")
         sys.exit(1)
 
-# put the peer in "Listen mode" for new connections
-def start_p2p_listenner(connection):
+# thread that listens for messages
+def thread_listener(connection):
     print("########### start_p2p_listenner ##########")
     connection.bind()
     connection.listen(timeline, server, username, vector_clock)
 
-# handler process IO request
+# thread that asynchronously waits for the keyboard
 def handle_stdin():
     data = sys.stdin.readline()
-    asyncio.ensure_future(queue.put(data)) # Queue.put is a coroutine, so you can't call it directly.
+    asyncio.ensure_future(queue.put(data))
 
 
 def parse_arguments():
@@ -65,10 +66,9 @@ async def ver_tabela(username, server):
 
 
 # python peer.py -pDHT 5000 -pP2P 5001
-""" MAIN """
 if __name__ == "__main__":
     try:
-        check_argv()
+        verify_args()
         args = parse_arguments()
         # configuraçao
         p2p_port = args.pP2P
@@ -86,12 +86,10 @@ if __name__ == "__main__":
         bootstrap_node = (ipB, int(pB))
         loop.run_until_complete(server.bootstrap([bootstrap_node])) 
 
-        print("Entrou na Rede !!!!")
-
-        print('Peer is running...')
+        print('Peer is active ...')
         username = utils.get_username()
         
-        (timeline, following, vector_clock) = storage.read_data(db_file+username)
+        (timeline, following, vector_clock) = storage.read_data(storage_file+username)
 
         loop.run_until_complete(builder.build_user_info(username, server, ip_address, p2p_port, vector_clock))
         
@@ -99,16 +97,15 @@ if __name__ == "__main__":
         # para enviar sms e receber timelines atraves da porta tcp
         connection = Connection(ip_address, int(p2p_port))
         # para estar à escuta no socket tcp
-        thread = Thread(target = start_p2p_listenner, args = (connection, ))
+        thread = Thread(target = thread_listener, args = (connection, ))
         thread.start()
 
-        # loop.add_reader(fd, callback, *args)
         # lê do teclado
         loop.add_reader(sys.stdin, handle_stdin)
         
         loop.run_until_complete(GetTimeline.get_timeline(server, username, following, vector_clock, timeline))
 
-        m = Menu("Timeline")
+        m = Menu("   Welcome  " + datetime.now().strftime('%d/%m/%Y %H:%M'))
         m.draw()
         running = True
         while running:
@@ -118,10 +115,10 @@ if __name__ == "__main__":
             print(following)
             msg = loop.run_until_complete(queue.get())
             if msg == "2\n":
-                loop.run_until_complete(FollowUser.follow_user(username, following, server, ip_address, p2p_port))
+                loop.run_until_complete(FollowUser.subscribe_username(username, following, server, ip_address, p2p_port, vector_clock[username]))
             else: 
                 if msg == "1\n":
-                    loop.run_until_complete(ShowTimeline.show_timeline(menu, timeline))
+                    loop.run_until_complete(SeeTimeline.see_timeline(menu, timeline))
                 else:
                     if msg == "3\n":
                         loop.run_until_complete(PostMessage.post_msg(timeline, username, server, vector_clock))
@@ -132,17 +129,17 @@ if __name__ == "__main__":
                             print("ver tabela")
                         else:
                             running = False
-                #break
             m.draw()
 
         #loop.run_forever()
-        print("ACABOU")
+        print("Programa terminado com sucesso!")
+        sys.exit(1) 
     except Exception as ex:
         print(ex)
     finally:
         print('Good Bye!')
-        storage.save_data(timeline, following, vector_clock, db_file+username)        # TODO rm username
-        connection.stop()                                                                      # stop thread in "listen mode"
-        server.stop()                                                                       # Stop the server with DHT Kademlia
-        loop.close()                                                                        # Stop the async loop
+        storage.save_data(timeline, following, vector_clock, storage_file+username)        
+        connection.stop()                                                                      
+        server.stop()                                                                       
+        loop.close()                                                                        
         sys.exit(1) 

@@ -88,15 +88,12 @@ def process_message(data, timeline, server, username, vector_clock):
     if info['type'] == 'simple':
         timeline.append({'id': info['id'], 'message': info['msg']})
         utils.update_vector_clock(1, info['id'], vector_clock)
-        #asyncio.async(update_vector_clock(server, 1, username))
         return 'ACK'.encode('utf-8')
     elif info['type'] == 'timeline':
         print("######### typr: timeline##############3 ")
         #received "{"type": "timeline", "id": "a", "v_clock": {"c": 0, "a": 1}, "n": 1}"
         list = get_messages(info['id'], timeline, int(info['n']))
         di = {'type': 'timeline', 'list': json.dumps(list)}
-        #update_vector_clock(len(list), info['id'], vector_clock)
-        #asyncio.async(update_vector_clock(server, len(list), username))
         res = json.dumps(di)
         return res.encode('utf-8')
     
