@@ -21,9 +21,7 @@
 
 </div>
 
-The practical work consists of carrying out the experimental evaluation of data
-storage and processing tasks using Hive Metastore, Avro + Parquet and Spark
-using [IMDb public datasets](https://www.imdb.com/interfaces/).
+This project explore the creation of a decentralized timeline service(e.g. Twitter, Instagram, Facebook) that harvests peer-to-peer and edge devices
 
 ## :rocket: Getting Started
 
@@ -34,51 +32,38 @@ local machine for development and testing purposes..
 
 The following software is required to be installed on your system:
 
-- [Java SDK 8+](https://openjdk.java.net/)
-- [Maven](https://maven.apache.org/maven-features.html)
-- [GCloud CLI](https://cloud.google.com/sdk/docs/install)
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
+- [Python3](https://www.python.org/downloads/)
+- [Library kademlia](https://pypi.org/project/kademlia/)
+
 
 ### :gear: Setup
 
-Create instances of hive and spark (using docker containers, based on big-data-europa with resolved incompatibilities).
-Configures the spark network by connecting it to Hive and runs the containers (hive and spark) in the background.
+Installs all necessary dependencies to run the program.
 
 ```
-bin/setup
-```
-
-Uploads the .csv files to Hive's HDFS. Creates the tables and converts the data to the parquet format. If the tables or
-files already exist there is no problem.
-
-```
-docker-hive/setup
+pip install -r requirements.txt
 ```
 
 ### :hammer: Development
 
-Run the project.
+Create the first node of the P2P network. This node is like all the others, but with the particularity of being known by everyone.
 
 ```
-bin/run query <query>
+python3 Bootstrap.py 
 ```
-
-Format the code accordingly to common [guide lines](https://github.com/google/google-java-format).
-
-```
-bin/format
-```
-
-Lint your code with _checkstyle_.
+add a node to the network. Bootstrap_ip and bootstrap_port fields have by default the values ​​of the first created node.
 
 ```
-bin/lint
+python3 peer.py <-pDHT port_dht> <-pP2P port_p2p> [<-ipB bootstrap_ip> <-pB bootstrap_port>]"
+```
+
+Example of adding a node: 
+```
+python3 peer.py -pDHT 5000 -pP2P 5001
 ```
 
 ### :hammer_and_wrench: Tools
 
-The recommended Integrated Development Environment (IDE) is IntelliJ IDEA.
 
 ## :busts_in_silhouette: Team
 
