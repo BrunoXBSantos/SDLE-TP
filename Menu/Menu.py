@@ -1,5 +1,5 @@
 class Menu:
-    def __init__(self, name, items=None):
+    def __init__(self, name):
         self.name = name
 
     def draw(self):

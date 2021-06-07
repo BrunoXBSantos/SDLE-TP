@@ -11,10 +11,10 @@ import Menu.Menu as menu
 from Storage import storage
 from datetime import datetime
 
-from Funcionalities import FollowUser
-from Funcionalities import GetTimeline
-from Funcionalities import SeeTimeline
-from Funcionalities import PostMessage
+from Functionalities import FollowUser
+from Functionalities import GetTimeline
+from Functionalities import SeeTimeline
+from Functionalities import PostMessage
 
 
 
