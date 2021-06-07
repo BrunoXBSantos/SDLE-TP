@@ -54,7 +54,7 @@ python3 Bootstrap.py
 add a node to the network. Bootstrap_ip and bootstrap_port fields have by default the values ​​of the first created node.
 
 ```
-python3 peer.py <-pDHT port_dht> <-pP2P port_p2p> [<-ipB bootstrap_ip> <-pB bootstrap_port>]"
+python3 peer.py <-pDHT port_dht> <-pP2P port_p2p> [<-ipB bootstrap_ip> <-pB bootstrap_port>]
 ```
 
 Example of adding a node: 
