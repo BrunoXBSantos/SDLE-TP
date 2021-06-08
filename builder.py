@@ -13,7 +13,7 @@ def simple_msg(msg, username):
 
 
 # timeline request
-def timeline_msg(id, vclock, n):
+def GetTimeline(id, vclock, n):
     timeline_msg = {'type': 'timeline', 'id': id, 'v_clock': vclock, 'n': n}
     return json.dumps(timeline_msg) 
 

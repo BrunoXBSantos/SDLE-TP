@@ -3,11 +3,8 @@ import json
 
 async def getSubscribers(server, username, menu):
     result = await server.get(username)
-    print("SSSSSSSSSSSSSSSSSSSSSSS")
-    print(result)
     result2 = json.loads(result)
     subscribers = result2["subscribers"]
-    print(subscribers)
     menu.clear_screen()
     print("-----------------------------------------")
     print(" 2 - Subscribers")

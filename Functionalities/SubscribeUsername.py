@@ -21,6 +21,5 @@ async def subscribe_username(username, subscribed, server, ip_address, p2p_port,
             userInfo['subscribers'][username] = f'{ip_address} {p2p_port}'
             userInfo['vector_clock'][username] = value_clock
             asyncio.ensure_future(server.set(user_id, json.dumps(userInfo)))
-            print(await (server.get(user_id)))
             return True
     return True

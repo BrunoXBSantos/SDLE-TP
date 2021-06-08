@@ -12,8 +12,8 @@ class Menu:
         print("")
         print('     0 - Exit')
         print("")
-        print('___________________________________________________')
+        print('_______________________________________________________________')
 
 def clear_screen():
-    for i in range(40):
-        print()
+        for i in range(40):
+            print()

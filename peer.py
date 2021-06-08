@@ -41,7 +41,6 @@ def verify_args():
 
 # thread that listens for messages
 def thread_listener(connection):
-    print("########### start_p2p_listenner ##########")
     connection.bind()
     connection.listen(timeline, server, username, vector_clock)
 
@@ -110,29 +109,29 @@ if __name__ == "__main__":
         m.draw()
         running = True
         while running:
-            print("vetor_clock")
-            print(vector_clock)
-            print("subscribed")
-            print(subscribed)
             msg = loop.run_until_complete(queue.get())
             if msg == "2\n":
                 loop.run_until_complete(SubscribeUsername.subscribe_username(username, subscribed, server, ip_address, p2p_port, vector_clock[username]))
+                menu.clear_screen()
             else: 
                 if msg == "1\n":
                     loop.run_until_complete(SeeTimeline.see_timeline(menu, timeline))
+                    menu.clear_screen()
                 else:
                     if msg == "3\n":
                         loop.run_until_complete(PostMessage.post_msg(timeline, username, server, vector_clock))
-                        print("send_msg Correu bem")
+                        menu.clear_screen()
                     else:
                         if msg == "4\n":
                             loop.run_until_complete(GetSubscribers.getSubscribers(server, username, menu))
+                            menu.clear_screen()
                         else:
                             if msg == "5\n":
                                 loop.run_until_complete(ver_tabela(username, server))
                                 print("ver tabela")
                             else:
                                 running = False
+            #menu.clear_screen()
             m.draw()
 
         #loop.run_forever()

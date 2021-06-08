@@ -19,7 +19,6 @@ async def post_msg(timeline, username, server, vetor_clock):
     # get subscribers port's
 # vai colocando no array connection_info os seguidores
 async def get_subscribers(server, username, vector_clock):
-    print("######### get_subscribers #########")
     connection_info = []
     result = await server.get(username)
     if result is None:
@@ -30,16 +29,13 @@ async def get_subscribers(server, username, vector_clock):
         vector_clock[username] += 1
         print(userInfo)
         await (server.set(username, json.dumps(userInfo)))
-        print("AAAAAAAAAAAAAAAAAAAAAAAAA")
         for user, info in userInfo['subscribers'].items():
             connection_info.append(info)
     return connection_info
 
 
 async def task_send_msg(msg, server, username, vector_clock):
-    print("######### task_send_msg #########")
     connection_info = await get_subscribers(server, username, vector_clock)
-    print("######### task_send_msg #########")
     print(connection_info)
     print('CONNECTION INFO (Ip, Port)')
     for subscribe in connection_info:

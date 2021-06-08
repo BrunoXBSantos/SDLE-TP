@@ -1,10 +1,7 @@
 import socket
 
 def update_vector_clock(n, id, vector_clock):
-    print('hei')
     try:
-        print("vetor_clock " )
-        print(vector_clock)
         vector_clock[id] += n
         print("vetor_clock " )
         print(vector_clock)
@@ -13,12 +10,12 @@ def update_vector_clock(n, id, vector_clock):
         print("vetor_clock " )
         print(vector_clock)
 
-# get the username
+# get username
 def get_username():
     nick = input('username: ')
     return nick.replace('\n', '')
 
-# Get user real ip
+# Get ip
 def get_ip_address():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     s.connect(("8.8.8.8", 80))
