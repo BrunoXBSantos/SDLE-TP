@@ -7,11 +7,9 @@ from Functionalities import UtilsFuncionalities
 
 # send message to the subscribers
 async def post_msg(timeline, username, server, vetor_clock):
-    print("######### send_msg #########")
     msg = input('Insert message: ')
     msg = msg.replace('\n','')
     timeline.append({'id': username, 'message': msg})
-    print(msg)
     result = builder.simple_msg(msg, username)
     await (task_send_msg(result, server, username, vetor_clock))
     return False
@@ -27,7 +25,6 @@ async def get_subscribers(server, username, vector_clock):
         userInfo = json.loads(result)
         userInfo['vector_clock'][username] += 1
         vector_clock[username] += 1
-        print(userInfo)
         await (server.set(username, json.dumps(userInfo)))
         for user, info in userInfo['subscribers'].items():
             connection_info.append(info)
@@ -36,10 +33,7 @@ async def get_subscribers(server, username, vector_clock):
 
 async def task_send_msg(msg, server, username, vector_clock):
     connection_info = await get_subscribers(server, username, vector_clock)
-    print(connection_info)
-    print('CONNECTION INFO (Ip, Port)')
     for subscribe in connection_info:
-        print(subscribe)
         info = subscribe.split()
         UtilsFuncionalities.send_p2p_msg(info[0], int(info[1]), msg, vector_clock)
 

@@ -3,12 +3,8 @@ import socket
 def update_vector_clock(n, id, vector_clock):
     try:
         vector_clock[id] += n
-        print("vetor_clock " )
-        print(vector_clock)
     except Exception:
         vector_clock[id] = n
-        print("vetor_clock " )
-        print(vector_clock)
 
 # get username
 def get_username():

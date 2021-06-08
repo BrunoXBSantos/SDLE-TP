@@ -20,7 +20,6 @@ def GetTimeline(id, vclock, n):
 # build a json with user info and put it in the DHT
 async def build_user_info(username, server, ip_address, p2p_port, vector_clock):
     exists = await server.get(username)
-    print(exists)    #check if user exists in DHT
     if exists is None:
         info = user_info(username, ip_address, p2p_port)
         vector_clock[username] = 0
