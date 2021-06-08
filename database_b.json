@@ -1,0 +1,1 @@
+"{\"messages\": [{\"id\": \"a\", \"message\": \"dwa\"}, {\"id\": \"a\", \"message\": \"dwadwawdadwa\"}, {\"id\": \"b\", \"message\": \"dwadwa\"}, {\"id\": \"a\", \"message\": \"dwadwawd\"}], \"subscribed\": [{\"id\": \"a\", \"ip\": \"192.168.1.82\", \"port\": 5001}], \"vector_clock\": {\"b\": 1, \"a\": 3}}"
